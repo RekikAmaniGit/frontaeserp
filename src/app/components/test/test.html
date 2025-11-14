@@ -1,0 +1,8 @@
+<p>test works!</p>
+<table class="table table-hover">
+    <thead class="table-dark">
+      <tr><th>Name</th><th>Age</th></tr>
+    </thead>
+  <tr *ngFor="let person of tabs"><td>{{person.name}}</td><td>{{person.age|currency:"USD"}}</td></tr>
+</table>
+<ng-template #myElseBlock> No</ng-template>

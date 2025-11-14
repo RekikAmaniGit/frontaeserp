@@ -1,0 +1,83 @@
+/* Styles spécifiques pour aligner la table sur l'esthétique Sakai/Evaluation */
+:host ::ng-deep {
+    // Assure la compacité de la table (p-datatable-sm)
+    .p-datatable-sm .p-datatable-tbody > tr > td {
+        padding: 0.8rem 1rem; /* Maintient l'espacement compact */
+    }
+
+    // L'avatar dans la colonne "Image"
+    .user-avatar {
+        border-radius: 50%; /* Rendre la photo ronde */
+        object-fit: cover;
+    }
+
+    // Style de la barre de pagination
+    .p-paginator {
+        background: transparent;
+        border: none;
+        padding: 1rem 0;
+        justify-content: flex-end;
+    }
+
+    // Style de la carte principale
+    .p-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    // Style du champ de recherche dans le caption
+    .p-input-icon-left {
+        .p-inputtext-sm {
+            padding-left: 2rem;
+            height: 2.2rem;
+            font-size: 0.875rem;
+        }
+
+        i {
+            line-height: 2.2rem;
+        }
+    }
+}
+/* Styles spécifiques pour aligner la table sur l'esthétique Sakai/Evaluation */
+:host ::ng-deep {
+    /*  Assure la compacité de la table (p-datatable-sm) */
+    .p-datatable-sm .p-datatable-tbody > tr > td {
+        padding: 0.8rem 1rem; /* Maintient l'espacement compact */
+    }
+
+   /*  L'avatar dans la colonne "Nom" (anciennement "Image")*/
+    .user-avatar1 {
+        width: 32px; /* Assurez-vous que la taille correspond à l'exemple (width="32") */
+        height: 32px; /* Ajouté pour s'assurer que l'image est un carré avant le radius */
+        border-radius: 50%; /* Rendre la photo ronde */
+        object-fit: cover;
+        /* margin-right: 0.25rem; */ /* Utilisé par la classe ml-2 dans le HTML */
+    }
+
+    /*  Style de la barre de pagination*/
+    .p-paginator {
+        background: transparent;
+        border: none;
+        padding: 1rem 0;
+        justify-content: flex-end;
+    }
+
+    /*  Style de la carte principale*/
+    .p-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    /*  Style du champ de recherche dans le caption*/
+    .p-input-icon-left {
+        .p-inputtext-sm {
+            padding-left: 2rem;
+            height: 2.2rem;
+            font-size: 0.875rem;
+        }
+
+        i {
+            line-height: 2.2rem;
+        }
+    }
+}

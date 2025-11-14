@@ -1,0 +1,34 @@
+<div class="page-wrapper">
+  <!-- <aside class="menu-sidebar d-none d-lg-block" *ngIf="loginService.isUserLoggedIn()" routerLinkActive="active"> -->
+     <aside>
+    <!--<div class="logo">
+      <a routerLink="/users">
+        <img src="assets/images/logo.png" alt="actiaperformance" class="img-responsive">
+      </a>
+    </div>-->
+    <!-- <app-sidebar></app-sidebar> -->
+  </aside>
+ <!--<div [ngClass]="{'page-container': loginService.isUserLoggedIn()}">
+    <header class="header-desktop" *ngIf="loginService.isUserLoggedIn()" routerLinkActive="active">-->
+    <div>
+        <header>
+      <div class="section-content section-content-p30">
+        <div class="container-fluid">
+          <div class="header-wrap">
+            <!-- <app-search></app-search>
+            <app-login-status></app-login-status> -->
+          </div>
+        </div>
+      </div>
+    </header>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<footer>
+  <ul>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Contact Us</a></li>
+    <li><a href="#">Help</a></li>
+  </ul>
+</footer>

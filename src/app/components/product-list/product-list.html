@@ -1,0 +1,30 @@
+<h3 align="center">Liste des Providers</h3>
+
+<ng-container *ngIf="products| async as tempProducts">
+  <table align="center" *ngIf="tempProducts.length > 0; else noProviders" border="2" align="center" class="styled-table">
+    <tr>
+      <th>Name</th>
+            <th>Price</th>
+            <th>Units in Stock</th>
+            <th>Date Created</th>
+      <th>Update</th>
+      <th>Delete</th>
+    </tr>
+    <tr *ngFor="let tempProduct of tempProducts">
+      <td class="align-middle">
+                <img src="{{ tempProduct.imageUrl }}" height="50" />
+            </td>
+            <td class="align-middle">{{ tempProduct.name}}</td>
+            <td class="align-middle">{{ tempProduct.unitPrice | currency:'USD'}}</td>
+            <td class="align-middle">{{ tempProduct.unitsInStock}}</td>
+        <td class="align-middle">{{ tempProduct.dateCreated}}</td>
+     
+    </tr>
+  </table>
+
+</ng-container>
+
+<!-- Message si aucun fournisseur trouvé -->
+<ng-template #noProviders>
+  <p style="text-align: center;">Aucun fournisseur trouvé.</p>
+</ng-template>
