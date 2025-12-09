@@ -1,16 +1,33 @@
+<p-toast />
+<p-confirmDialog [style]="{ width: '450px' }" />
+
+<p-toolbar styleClass="mb-6">
+    <ng-template pTemplate="start">
+        <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+        <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedUsers()" [disabled]="!selectedUsers || !selectedUsers.length" />
+    </ng-template>
+
+    <ng-template pTemplate="end">
+        <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+    </ng-template>
+</p-toolbar>
+
 <p-table 
-    #dt
-    [value]="listUsers()"
-    [rows]="thePageSize"                 [paginator]="true"
-    [totalRecords]="theTotalElements"
-    [lazy]="true"
-    (onLazyLoad)="onPageChange($event)"
-[globalFilterFields]="['matricule', 'firstName', 'position', 'isActivated', 'note', 'grade']"    [rowHover]="true"
-    dataKey="matricule"
-    [(selection)]="selectedUsers"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 20, 30]" [columns]="cols"
+    #dt
+    [value]="listUsers()"
+    [rows]="thePageSize"
+    [paginator]="true"
+    [totalRecords]="theTotalElements"
+    [lazy]="true"
+    (onLazyLoad)="onPageChange($event)"
+    [globalFilterFields]="['matricule', 'firstName', 'lastName', 'position', 'isActivated', 'note', 'grade']"
+    [rowHover]="true"
+    dataKey="matricule"
+    [(selection)]="selectedUsers"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30]" 
+    [columns]="cols"
     [tableStyle]="{ 'min-width': '75rem' }"
 >
     <ng-template pTemplate="caption">
@@ -18,7 +35,9 @@
             <h5 class="m-0">User Management</h5>
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search" />
-                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." />
+                <input pInputText type="text" 
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                        placeholder="Rechercher..." />
             </p-iconfield>
         </div>
     </ng-template>
@@ -46,10 +65,10 @@
                 Actif
                 <p-sortIcon field="isActivated" />
             </th>
-             <th pSortableColumn="note" style="min-width: 12rem">
-            Note
-            <p-sortIcon field="note" />
-        </th>
+           <th pSortableColumn="note" style="min-width: 12rem">
+                Note
+                <p-sortIcon field="note" />
+            </th>
             <th pSortableColumn="grade" style="min-width: 12rem">
                 Grade
                 <p-sortIcon field="grade" />
@@ -60,82 +79,72 @@
         <tr>
             <th></th> 
             
-                <th>
-<p-columnFilter type="text" field="matricule" matchMode="contains" placeholder="Filtrer par matricule" ariaLabel="Filter Matricule" />
-</th>                
-    <th>
-    <p-columnFilter field="firstName" matchMode="in" [showMenu]="false">
-        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-multiSelect 
-                [ngModel]="value" 
-                [options]="availableFirstNames" placeholder="Filtrer par nom" 
-                (onChange)="filter($event.value)" 
-                optionLabel="fullName" > 
-                
-                <ng-template let-option pTemplate="item">
-                    <div class="inline-block vertical-align-middle flex items-center">
-                        <img 
-                            [alt]="option.firstName" 
-                            [src]="option.photoUrl || 'assets/images/default-profile.png'" 
-                            width="24" 
-                            height="24"
-                            class="vertical-align-middle mr-2"
-                            style="border-radius: 50%; object-fit: cover;" />
-                        <span class="ml-1">{{ option.firstName }} {{ option.lastName }}</span> 
-                    </div>
-                </ng-template>
-                
-                <ng-template let-value pTemplate="selectedItems">
-                    <ng-container *ngIf="value && value.length > 0">
-                        {{ value.length }} items selected 
-                    </ng-container>
-                    <ng-container *ngIf="!value || value.length === 0">
-                        Filtrer par nom
-                    </ng-container>
-                </ng-template>
-
-            </p-multiSelect>
-        </ng-template>
-    </p-columnFilter>
-</th>
-          
+            <th>
+                <p-columnFilter type="text" field="matricule" matchMode="contains" placeholder="Filtrer par matricule" ariaLabel="Filter Matricule" />
+            </th>
             
             <th>
+                <p-columnFilter field="firstName" matchMode="in" [showMenu]="false">
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-multiSelect 
+                            [ngModel]="value" 
+                            [options]="availableFirstNames" 
+                            placeholder="Filtrer par nom" 
+                            (onChange)="filter($event.value)" 
+                            optionLabel="label"  
+                            optionValue="value" >
+                            <ng-template let-option pTemplate="item">
+                                <div class="inline-block vertical-align-middle flex items-center">
+                                    <img 
+                                        [alt]="option.label" [src]="option.photoUrl || 'assets/images/default-profile.png'" 
+                                        width="24" 
+                                        height="24"
+                                        class="vertical-align-middle mr-2"
+                                        style="border-radius: 50%; object-fit: cover;" />
+                                    <span class="ml-1">{{ option.firstName }} {{ option.lastName }}</span> 
+                                </div>
+                            </ng-template>
+                            <ng-template let-value pTemplate="selectedItems">
+                                </ng-template>
+                        </p-multiSelect>
+                    </ng-template>
+                </p-columnFilter>
+            </th>
+          
+            <th>
                <p-columnFilter field="position" matchMode="equals" [showMenu]="false">
-        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-select 
-                [ngModel]="value" 
-                [options]="availablePositions" 
-                (onChange)="filter($event.value)" 
-                placeholder="Tous les postes" 
-                optionLabel="label" 
-                optionValue="value"
-                [showClear]="true"
-            />
-        </ng-template>
-    </p-columnFilter>
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-select 
+                            [ngModel]="value" 
+                            [options]="availablePositions" 
+                            (onChange)="filter($event.value)" 
+                            placeholder="Tous les postes" 
+                            optionLabel="label" 
+                            optionValue="value"
+                            [showClear]="true"
+                        />
+                    </ng-template>
+                </p-columnFilter>
             </th>
             
             <th>
                 <p-columnFilter type="boolean" field="isActivated" />
             </th>
             
-            <th><p-columnFilter field="note" matchMode="gte" [showMenu]="false">
-        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <div class="flex flex-col gap-2 p-2 align-items-center">
-                
-                <p-rating 
-                    [ngModel]="value || 0" 
-                    (ngModelChange)="filter($event)" 
-                    [stars]="5" 
-                    
-                    class="my-2"
-                />
-                
-                
-            </div>
-        </ng-template>
-    </p-columnFilter></th> 
+            <th>
+                <p-columnFilter field="note" matchMode="gte" [showMenu]="false">
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <div class="flex flex-col gap-2 p-2 align-items-center">
+                            <p-rating 
+                                [ngModel]="value || 0" 
+                                (ngModelChange)="filter($event)" 
+                                [stars]="5" 
+                                class="my-2"
+                            />
+                        </div>
+                    </ng-template>
+                </p-columnFilter>
+            </th> 
             
             <th>
                 <p-columnFilter field="grade" matchMode="equals" [showMenu]="false">
@@ -193,17 +202,17 @@
             </td>
             
             <td>
-                <p-rating [ngModel]="user.note" [readonly]="true" /> 
+                <p-rating [ngModel]="user.note" [readonly]="true"  /> 
             </td>
             
             <td>
-                <p-tag [value]="user.grade" [severity]="getGrade(user.grade)" />
+                <p-tag [value]="user.grade" />
             </td>
             
             <td>
-                <!-- <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" (click)="editUser(user)" pTooltip="Edit" tooltipPosition="top" />
+                <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" (click)="editUser(user)" pTooltip="Edit" tooltipPosition="top" />
                 <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteUser(user)" pTooltip="Delete" tooltipPosition="top" />
-          -->   </td>
+             </td>
         </tr>
     </ng-template>
 
@@ -214,3 +223,149 @@
     </ng-template>
 
 </p-table>
+
+<p-dialog [(visible)]="userDialog" [style]="{ width: '80vw', 'max-width': '950px' }" [baseZIndex]="10000" [modal]="true" styleClass="user-dialog-left" [header]="user.matricule ? 'Mise à jour de l\'utilisateur' : 'Création d\'un nouvel utilisateur'">
+
+    <p-button 
+        icon="pi pi-arrow-left" 
+        (click)="hideDialog()" 
+        title="Retour à la liste des utilisateurs"
+        styleClass="p-button-rounded p-button-text p-button-plain absolute top-0 left-0 ml-3 z-10"
+    />
+    
+    <ng-template pTemplate="content">
+        <div class="p-fluid mt-3 user-dialog-grid">
+
+            <!-- Formulaire -->
+            <div class="col-12">
+
+                <div class="user-section-card">
+                    <p-divider align="left">
+                        <div class="inline-flex align-items-center">
+                            <i class="pi pi-user mr-2"></i>
+                            <b>Informations personnelles</b>
+                        </div>
+                    </p-divider>
+
+                    <div class="p-fluid grid user-section-body">
+                        <div class="field col-12 md:col-1">
+                            <label for="firstName" class="font-bold">Prénom *</label>
+                            <input type="text" pInputText id="firstName" [(ngModel)]="user.firstName" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !user.firstName }" placeholder="Ex: Jean" />
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.firstName">Le prénom est requis.</small>
+                        </div>
+
+                        <div class="field col-12 md:col-1">
+                            <label for="lastName" class="font-bold">Nom *</label>
+                            <input type="text" pInputText id="lastName" [(ngModel)]="user.lastName" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !user.lastName }" placeholder="Ex: Dupont" />
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.lastName">Le nom est requis.</small>
+                        </div>
+
+                        <div class="field col-12 md:col-1">
+                            <label for="email" class="font-bold">Email *</label>
+                            <input type="email" pInputText id="email" [(ngModel)]="user.email" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !user.email }" placeholder="exemple@domaine.com" />
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.email">L'email est requis.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-section-card">
+                    <p-divider align="left">
+                        <div class="inline-flex align-items-center">
+                            <i class="pi pi-phone mr-2"></i>
+                            <b>Contact</b>
+                        </div>
+                    </p-divider>
+
+                    <div class="p-fluid grid user-section-body">
+                        <div class="field col-12 md:col-1">
+                            <label for="phoneNumber" class="font-bold">Téléphone</label>
+                            <p-inputMask id="phoneNumber" [(ngModel)]="user.phoneNumber" mask="99 999 999" placeholder="Ex: 22 123 456"></p-inputMask>
+                        </div>
+
+                        <div class="field col-12 md:col-1">
+                            <label for="companyName" class="font-bold">Société</label>
+                            <input type="text" pInputText id="companyName" [(ngModel)]="user.companyName" placeholder="Nom de la société" />
+                        </div>
+
+                        <div class="field col-12 md:col-1">
+                            <label for="country" class="font-bold">Pays</label>
+                            <input type="text" pInputText id="country" [(ngModel)]="user.country" placeholder="Ex: Tunisie" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-section-card">
+                    <p-divider align="left">
+                        <div class="inline-flex align-items-center">
+                            <i class="pi pi-briefcase mr-2"></i>
+                            <b>Poste & statut</b>
+                        </div>
+                    </p-divider>
+
+                    <div class="p-fluid grid user-section-body">
+                        <div class="field col-12 md:col-1">
+                            <label for="position" class="font-bold">Position</label>
+                            <p-select id="position" [(ngModel)]="user.position" [options]="availablePositions" optionLabel="label" optionValue="value" placeholder="Sélectionner une position" />
+                        </div>
+
+                        <div class="field col-12 md:col-1">
+                            <label for="grade" class="font-bold">Grade</label>
+                            <p-select id="grade" [(ngModel)]="user.grade" [options]="allGrades" optionLabel="label" optionValue="value" placeholder="Sélectionner un grade" />
+                        </div>
+
+                        <div class="field col-12 md:col-1 flex items-center user-status-field">
+                            <p-chip [label]="user.isActivated ? 'Utilisateur Actif' : 'Utilisateur Inactif'" [icon]="user.isActivated ? 'pi pi-check' : 'pi pi-times'" [styleClass]="user.isActivated ? 'bg-green-500 text-white' : 'bg-red-500 text-white'" />
+                            <p-select 
+                                id="isActivated" 
+                                [(ngModel)]="user.isActivated" 
+                                [options]="[{ label: 'Actif', value: true }, { label: 'Inactif', value: false }]"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Statut" 
+                                class="ml-2 w-full"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-section-card">
+                    <p-divider align="left">
+                        <div class="inline-flex align-items-center">
+                            <i class="pi pi-lock mr-2"></i>
+                            <b>Authentification</b>
+                        </div>
+                    </p-divider>
+
+                    <div class="p-fluid grid user-section-body">
+                        <div class="field col-12 md:col-1">
+                            <label for="username" class="font-bold">Nom d'utilisateur</label>
+                            <input type="text" pInputText id="username" [(ngModel)]="user.username" placeholder="Identifiant de connexion" />
+                        </div>
+
+                        <div class="field col-12 md:col-1">
+                            <label for="password" class="font-bold">Mot de passe <span *ngIf="user.matricule === 0">*</span></label>
+                            <p-password 
+                                id="password" 
+                                [(ngModel)]="user.password" 
+                                [feedback]="true" 
+                                [toggleMask]="true" 
+                                [placeholder]="user.matricule > 0 ? 'Laisser vide pour ne pas changer' : ''" 
+                                [required]="user.matricule === 0" 
+                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !user.password && user.matricule === 0 }">
+                            </p-password>
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.password && user.matricule === 0">Le mot de passe est requis pour la création.</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Annuler" icon="pi pi-times" severity="secondary" (click)="hideDialog()" class="p-button-outlined" />
+        <p-button label="Sauvegarder" icon="pi pi-check" (click)="saveUser()" styleClass="primary-action-btn" />
+    </ng-template>
+</p-dialog>

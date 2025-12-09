@@ -5,7 +5,7 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-test',
-  imports: [NgFor, NgIf, CurrencyPipe],
+  imports: [NgFor, CurrencyPipe],
   templateUrl: './test.html',
   styleUrl: './test.css',
 })

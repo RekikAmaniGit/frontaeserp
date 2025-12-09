@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Aligne le contenu du dialog utilisateur à gauche et réduit le padding interne */
+.user-dialog-left .p-dialog {
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+}
+
+.user-dialog-left .p-dialog-header {
+  padding: 1.1rem 1.6rem 0.9rem;
+}
+
+.user-dialog-left .p-dialog-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.user-dialog-left .p-dialog-content {
+  padding: 0.25rem 1.2rem 1.2rem;
+  background: #f9fafb;
+}
+
+.user-dialog-left .p-dialog-content .p-fluid.grid {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.user-dialog-left .p-dialog-footer {
+  padding: 0.85rem 1.6rem 1.1rem;
+}
+
+.user-dialog-left .p-dialog-footer .primary-action-btn {
+  background: #16a34a;
+  border-color: #16a34a;
+}
+
+.user-dialog-left .p-dialog-footer .primary-action-btn:hover {
+  background: #15803d;
+  border-color: #15803d;
+}

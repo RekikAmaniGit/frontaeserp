@@ -1,0 +1,54 @@
+<div class="login-container">
+    <div class="login-card">
+        
+        <header class="card-header">
+            <h1 class="app-title">Connexion AE-SERP</h1>
+            <p class="app-subtitle">Accédez à votre espace de gestion</p>
+        </header>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input 
+                    id="username" 
+                    type="text" 
+                    formControlName="username" 
+                    placeholder="Entrez votre nom d'utilisateur"
+                    [class.is-invalid]="f['username'].invalid && f['username'].touched"
+                >
+                <div *ngIf="f['username'].invalid && f['username'].touched" class="error-message">
+                    Le nom d'utilisateur est requis.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input 
+                    id="password" 
+                    type="password" 
+                    formControlName="password" 
+                    placeholder="Entrez votre mot de passe"
+                    [class.is-invalid]="f['password'].invalid && f['password'].touched"
+                >
+                <div *ngIf="f['password'].invalid && f['password'].touched" class="error-message">
+                    Le mot de passe est requis.
+                </div>
+            </div>
+
+            <button 
+                type="submit" 
+                class="btn-submit" 
+                [disabled]="loginForm.invalid || loading"
+            >
+                <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                {{ loading ? 'Connexion en cours...' : 'Se connecter' }}
+            </button>
+            
+        </form>
+
+        <footer class="card-footer">
+            <a href="#" class="link-forgot-password">Mot de passe oublié ?</a>
+        </footer>
+    </div>
+</div>

@@ -1,0 +1,118 @@
+.user-dialog-grid {
+  align-items: flex-start;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.user-section-card {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  padding: 0.9rem 1.3rem 1rem;
+  margin-bottom: 0.9rem;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+.user-section-body {
+  margin-top: 0.2rem;
+}
+
+.user-status-field {
+  gap: 0.75rem;
+}
+
+/* Labels plus harmonisés */
+.user-section-card .field label {
+  font-size: 0.85rem;
+  color: #1f2937;
+}
+
+/* Réduit légèrement la taille des inputs pour un rendu plus compact */
+.user-section-card .p-inputtext,
+.user-section-card .p-inputmask,
+.user-section-card .p-select,
+.user-section-card .p-password {
+  font-size: 0.85rem;
+}
+
+/* Style coloré des en-têtes de section (Option B) */
+.user-section-card .p-divider {
+  margin: 0 0 0.4rem 0;
+}
+
+.user-section-card .p-divider .inline-flex {
+  gap: 0.4rem;
+}
+
+.user-section-card .p-divider i {
+  color: #2563eb;
+  font-size: 0.95rem;
+}
+
+.user-section-card .p-divider b {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.user-section-card .p-divider .p-divider-content {
+  padding: 0;
+}
+
+/* Ligne de séparation plus fine et colorée */
+.user-section-card .p-divider.p-divider-horizontal:before {
+  border-top-color: rgba(37, 99, 235, 0.25);
+}
+
+/* Champs de formulaire plus modernes */
+.user-section-card .p-inputtext,
+.user-section-card .p-inputmask,
+.user-section-card .p-select .p-inputtext,
+.user-section-card .p-password .p-inputtext {
+  border-radius: 8px;
+}
+
+/* Note (p-rating) légèrement colorée */
+.user-section-card .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
+  color: #f59e0b;
+}
+
+.user-dialog-summary {
+  border-left: 1px solid rgba(148, 163, 184, 0.25);
+  padding-left: 1.25rem;
+  padding-top: 0.25rem;
+}
+
+.user-dialog-summary-item {
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.user-dialog-summary-item i {
+  color: #64748b;
+}
+
+.user-dialog-summary-item + .user-dialog-summary-item {
+  border-top: 1px dashed rgba(148, 163, 184, 0.35);
+}
+
+.primary-action-btn {
+  min-width: 9rem;
+}
+
+/* Réduit le padding horizontal du contenu du dialog utilisateur
+   pour supprimer l'espace vide à gauche du formulaire */
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  /* Assure que le contenu interne s'étend sur toute la largeur du dialog */
+  display: block;
+}
